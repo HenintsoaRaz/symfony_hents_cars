@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fr" data-bs-theme="auto">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CARS SHOP</title>
+    <meta name="description" content="Vente de voiture">
+    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('assets/css/carousel.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+
+<header data-bs-theme="dark">
+    <nav class="navbar navbar-expand-md fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ path('app_home') }}"> <img class="logo_img_brand" src="{{ asset('assets//images/lg.jpg') }}" alt="">  </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                   <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}" id="home-color-m">Accueil</a>
+                   </li>
+                   {% for category in allCategories %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_category', { slug : category.slug } ) }}">{{ category.name }}</a>
+                        </li>
+
+                   {% endfor %}
+                </ul>
+
+                <div class="speed-menu">
+
+                    {% if app.user %}
+                        <a href="{{ path('app_account') }}"><i data-feather="user"></i> {{ app.user.firstname }} </a> 
+                            <a href="{{ path('app_account_wishlist') }}">
+                                <i data-feather="heart"></i>
+                            </a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}"><i data-feather="user"></i></a> 
+                    {% endif %}
+
+                    <a href="{{ path('app_cart') }}">
+                        <i data-feather="shopping-cart"></i>
+                        <span class="badge text-bg-light">{{ fullCartQuantity }} </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+     <div class="container my-5">
+        <h1 id="mon_panier"> Mon panier </h1>
+
+		<div class="row">
+			<div class="col-md-4">
+				<div class="bg-light p-3 strong_span_b">
+					<div class="d-flex justify-content-between cart_total_produit">
+						<span class="fw-bold">Total produit</span>
+						<span>{{ fullCartQuantity }}</span>
+					</div>
+					<div class="d-flex justify-content-between mt-3 cart_total_produit">
+						<span class="fw-bold">Prix total T.T.C</span>
+						<span>{{ totalWt|price }}</span>
+					</div>
+					<div class="commander_contain">
+						<a href="{{ path('app_order') }}" id="commander_btn">Commander</a>
+					</div>
+				</div>
+			</div>
+
+
+
+
+			<div class="col-md-8 strong_span" id="bg_col_mPanier">
+				{%  for product in cart %}
+					<div class="row mt-2" >
+						<div class="col-md-2">
+							<img src="/uploads/{{ product.object.illustration }}" class="img-fluid" alt="{{ product.object.name }}">
+						</div>
+						<div class="col-md-6">
+							<strong>{{ product.object.name }}</strong>
+							<span class="d-block small">Prix unitaire : {{ product.object.pricewt|price }}<span/>
+						</div>
+						<div class="col-md-2 text-right">
+							<a class="badge text-bg-secondary" href="{{ path('app_cart_decrease', { id : product.object.id } ) }}"> - </a> 
+                            <span class="badge text-bg-secondary"> x {{ product.qty }}</span> 
+                            <a class="badge text-bg-secondary" href="{{ path('app_cart_add', { id : product.object.id } ) }}"> + </a>
+						</div>
+						<div class="col-md-2">
+							<strong> {{ (product.qty * product.object.pricewt)|price }} </strong>
+						</div>
+					</div>
+				{% endfor %}
+                <div class="commander_contain">
+				    <a href="{{ path('app_cart_remove') }}" id="vider">Vider le panier </a>	
+				</div>
+			</div>
+
+			
+		</div>
+
+    
+	</div>
+
+    
+    
+</main>
+
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/js/global.js') }}"></script>
+</body>
+</html>

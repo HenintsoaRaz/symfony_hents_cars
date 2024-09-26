@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container my-5">
+                
+        <div class="row" id="modif_mot_mdp">
+            <div class="col-md-3">
+                {% include 'account/_menu.html.twig' %}
+            </div>
+            <div class="col-md-9">
+                <h5 id="modification">Modification de mon mot de passe </h5>
+                {{ form(modifyPwd) }}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

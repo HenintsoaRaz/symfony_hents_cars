@@ -1,0 +1,532 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<!doctype html>
+<html lang="fr" data-bs-theme="auto">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cars Shop</title>
+    <meta name="description" content="Vente de voitures">
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet"> 
+
+
+    <link href="{{ asset('assets/css/animate.css') }}" rel="stylesheet"> 
+    <link href="{{ asset('assets/css/owl.carousel.min.css') }}" rel="stylesheet"> 
+    <link href="{{ asset('assets/css/owl.theme.default.min.css') }}" rel="stylesheet"> 
+
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet"> 
+    
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('assets/css/carousel.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Rubik&display=swap" rel="stylesheet"> 
+        <script src="https://unpkg.com/feather-icons"></script>
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+
+</head>
+<body>
+
+<header data-bs-theme="dark">
+
+
+
+
+</header>
+
+<main>
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {% if headers|length > 1 %}
+                {% for key,header in headers %}
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ key }}" {% if key == 0 %}class="active" aria-current="true"{% endif %} aria-label="{{ header.title }}"></button>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+
+
+
+
+        <div class="carousel-inner">
+            {% for key, header in headers %}
+                {# {{ dump(key) }} #} 
+                <div class="carousel-item {% if key == 0 %}active{% endif %}">
+                    <div class="ss">
+                      
+                    </div>
+                    <img src="/uploads/{{ header.illustration }}" class="bd-placeholder-img" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></img>
+                    <div class="container">
+                        <div class="carousel-caption text-start" id="center-new_text">
+                                <h1 id="head_title">{{ header.title }}</h1>
+                                <p class="opacity-75" id="content-head-t">
+                                    {{ header.content }}
+                                </p>
+                                <p class="center_text_head_bt"><a id="head-btn" href="{{ header.buttonLink }}">{{ header.buttonTitle }}</a></p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if headers|length > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        {% endif %}
+
+    </div>
+
+
+
+
+{# OFFRES ====================== #}
+
+<section id="offres_bg_Hents">
+
+    <div class="container-ui"> 
+            <h1 id="offres_title_home"> NOS OFFRES DU MOMENT</h1>
+            <h5 id="best_offre_home"> Découvrez et profitez de nos meilleures offres sur l'ensemble de la gamme de voitures </h5>
+
+            <section class="grid_cards" id="section1">
+                {% for product in productsInHomepage %}
+                        <article class="card_ui" id="article_lien">
+                            <div class="car_header">
+                                <div class="car_header_status">
+                                    <a href="#" class="status_rating">
+                                        <i class="fas fa-star status_rating_star"></i>
+                                        <span>4.7</span>
+                                        <span class="status_rating_number_comments">(109)</span>
+                                    </a>
+                                    <div class="status_disponibility status_available">
+                                        <span>Disponible</span>
+                                    </div>
+                                </div>
+                                <div>
+                                        
+                                        {% if app.user %}
+                                            {% if product in app.user.wishlists %}
+                                                <a class="wishlist-icon wishlist-icon-active" href="{{ path('app_account_wishlist_remove', { id : product.id } ) }} #section1"">
+                                                    <i data-feather="heart"></i>
+                                                </a>
+                                            {% else %}
+                                                <a class="wishlist-icon" href="{{ path('app_account_wishlist_add', { id : product.id } ) }} #section1">
+                                                    <i data-feather="heart"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% else %}
+                                            <a data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                <i data-feather="heart"></i>
+                                            </a>
+
+                                        {% endif %}
+                                
+                                </div>
+                            </div>
+                            <div class="car_body">
+                                <div class="car_body_img_container">
+                                        <a href="{{ path('app_product', { slug : product.slug }) }}" class="car_img_content_link">
+                                            <figure class="car_img_content">
+                                                <img src="/uploads/{{ product.illustration }}">
+                                            </figure>
+                                        <a/>
+                                </div>
+                                <div>
+                                    <p class="car_name">{{ product.name }}</p>
+                                    <div class="car_price_container">
+                                        <a href="#" class="car_model_link">
+                                            <h2 class="car_model" title="FOCUS">{{ product.description|raw }}</h2>
+                                        </a>
+                                        <p class="car_price">  <span class="car_price_time"></span></p>                                    </div>
+                                </div>
+                            </div>
+                            <div class="car_footer">
+                                <ul class="car_list_characteristics">
+                                    <li>
+                                        <i class="fas fa-sliders-h"></i>
+                                        <span title="Manual">Manual</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-tachometer-alt"></i>
+                                        <span title="Kilometraje ilimitado">Kilometraje ilimitado</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-user"></i>
+                                        <span title="5">5</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </article>
+                    
+
+                {% endfor %} 
+            </section>      
+    </div> 
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ================ SECTION PUB : ====================== -->
+<section class="sec_pub_cars">
+    <div class="les_raisons">
+        <h5>LES RAISONS</h5>
+        <h1>DE CHOISIR CARS-SHOP</h1>
+    </div>
+
+<!-- slide -->
+<div id="carouselExampleCaptions" class="carousel slide">
+
+    <div class="carousel-inner sec_pub_cars">
+        {% for key, seller in sellers %}
+            <div class="carousel-item {% if key == 0 %}active{% endif %}" id="pub-heigh">
+                <div class="bg_fond_new">
+                
+                </div>
+
+                <img src="/uploads/{{ seller.illustration }}" class="bd-placeholder-img" id="obj-cover" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                <div class="carousel-caption d-md-block btm_new">
+                    <div class="container">
+                        <h1 id="seller_tittle_pub">{{ seller.title }}</h1>
+                        <p class="opacity-75" id="seller_tittle_p">
+                            {{ seller.content }}
+                        </p>
+                        <p><a class="btn btn-lg btn-primary head-btn-new" href="{{ seller.buttonSeller }}">{{ seller.descriptionSeller }}</a></p>      
+                    </div>
+
+                </div>
+
+            </div>
+
+        
+        {% endfor %}
+    </div>
+
+
+
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+
+</div>
+
+<!--  finSlide -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+
+
+</section>
+<!-- ===============================================================  --->
+
+
+{# ============================================================= #}
+		<section id="new-cars" class="new-cars">
+			<div class="container">
+				<div class="section-header" id="checkout_id">
+                    <h1>VOITURES LES PLUS RÉCENTES</h1>
+					<h5>Découvrez les dernières voitures</h5>
+					
+				</div><!--/.section-header-->
+
+
+				<div class="new-cars-content">
+					<div class="owl-carousel owl-theme" id="new-cars-carousel">
+
+
+{% for header in headers %}
+						<div class="new-cars-item">
+							<div class="single-new-cars-item">
+								<div class="row">
+									<div class="col-md-7 col-sm-12">
+										<div class="new-cars-img">
+                                            <img src="/uploads/{{ header.illustration }}" class="bd-placeholder-img" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></img>
+											
+										</div><!--/.new-cars-img-->
+									</div>
+									<div class="col-md-5 col-sm-12">
+										<div class="new-cars-txt">
+											<h2><a href="#">chevrolet camaro <span> za100</span></a></h2>
+											<p>
+												Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+											</p>
+											<p class="new-cars-para2">
+												Sed ut pers unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. 
+											</p>
+											<button class="welcome-btn new-cars-btn" onclick="window.location.href='#'">
+												view details
+											</button>
+										</div><!--/.new-cars-txt-->	
+									</div><!--/.col-->
+								</div><!--/.row-->
+							</div><!--/.single-new-cars-item-->
+						</div><!--/.new-cars-item-->
+{% endfor %} 
+
+
+					</div><!--/#new-cars-carousel-->
+				</div><!--/.new-cars-content-->
+
+
+			</div><!--/.container-->
+
+		</section><!--/.new-cars-->
+{# ========================================================================= #}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!======================= LOGO ==================>
+<div class="logos">
+        <div class="logos-slide">
+            <img src="{{ asset('assets//images/a.png') }}" alt="">
+            <img src="{{ asset('assets//images/b.png') }}" alt="">
+            <img src="{{ asset('assets//images/c.png') }}" alt="">
+            <img src="{{ asset('assets//images/d.png') }}" alt="">
+            <img src="{{ asset('assets//images/e.png') }}" alt="">
+            <img src="{{ asset('assets//images/f.png') }}" alt="">
+            <img src="{{ asset('assets//images/d.png') }}" alt="">
+            <img src="{{ asset('assets//images/e.png') }}" alt="">
+            <img src="{{ asset('assets//images/f.png') }}" alt="">
+        </div>
+    </div>
+<!-- ============================================= -->
+
+
+
+
+
+
+
+
+
+
+
+		<!--===========================  FOOTER ================== -->
+		<footer id="contact"  class="contact">
+			<div class="container">
+				<div class="footer-top">
+					<div class="row">
+						<div class="col-md-3 col-sm-6">
+							<div class="single-footer-widget">
+								<div class="footer-logo">
+									<a href="index.html">CARS-SHOP</a>
+								</div>
+								<p class="ased">
+									Ased do eiusm tempor incidi ut labore et dolore magnaian aliqua. Ut enim ad minim veniam.
+								</p>
+								<div class="footer-contact">
+									<p>info@themesine.com</p>
+									<p>+1 (885) 2563154554</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-2 col-sm-6">
+							<div class="single-footer-widget">
+								<h2>about devloon</h2>
+								<ul>
+									<li><a href="#">about us</a></li>
+									<li><a href="#">career</a></li>
+									<li><a href="#">terms <span> of service</span></a></li>
+									<li><a href="#">privacy policy</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-3 col-xs-12">
+							<div class="single-footer-widget">
+								<h2>top brands</h2>
+								<div class="row">
+									<div class="col-md-7 col-xs-6">
+										<ul>
+											<li><a href="#">BMW</a></li>
+											<li><a href="#">lamborghini</a></li>
+											<li><a href="#">camaro</a></li>
+											<li><a href="#">audi</a></li>
+											<li><a href="#">infiniti</a></li>
+											<li><a href="#">nissan</a></li>
+										</ul>
+									</div>
+									<div class="col-md-5 col-xs-6">
+										<ul>
+											<li><a href="#">ferrari</a></li>
+											<li><a href="#">porsche</a></li>
+											<li><a href="#">land rover</a></li>
+											<li><a href="#">aston martin</a></li>
+											<li><a href="#">mersedes</a></li>
+											<li><a href="#">opel</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-offset-1 col-md-3 col-sm-6">
+							<div class="single-footer-widget">
+								<h2>news letter</h2>
+								<div class="footer-newsletter">
+									<p>
+										Subscribe to get latest news  update and informations
+									</p>
+								</div>
+								<div class="hm-foot-email">
+									<div class="foot-email-box">
+										<input type="text" class="form-control" placeholder="Add Email">
+									</div><!--/.foot-email-box-->
+									<div class="foot-email-subscribe">
+										<span><i class="fa fa-arrow-right"></i></span>
+									</div><!--/.foot-email-icon-->
+								</div><!--/.hm-foot-email-->
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="footer-copyright">
+					<div class="row">
+						<div class="col-sm-6">
+							<p>
+                                <p>&copy; Site E-Commerce - <a href="#">Hents_</a> &middot; <a href="#">ID-WEB</a></p>
+							</p><!--/p-->
+						</div>
+						<div class="col-sm-6">
+							<div class="footer-social">
+								<a href="#"><i class="fa fa-facebook"></i></a>	
+								<a href="#"><i class="fa fa-instagram"></i></a>
+								<a href="#"><i class="fa fa-linkedin"></i></a>
+								<a href="#"><i class="fa fa-pinterest-p"></i></a>
+								<a href="#"><i class="fa fa-behance"></i></a>	
+							</div>
+						</div>
+					</div>
+				</div><!--/.footer-copyright-->
+			</div><!--/.container-->
+
+			<div id="scroll-Top">
+				<div class="return-to-top">
+					<i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+				</div>
+				
+			</div><!--/.scroll-Top-->
+			
+        </footer><!--/.contact-->
+		<!--contact end-->
+  
+     
+   
+</main>
+
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/js/global.js') }}"></script>
+
+<script src="{{ asset('assets/js/jquery.js') }}"></script>
+<script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('assets/js/custom.js') }}"></script>
+
+ <script>
+        var copy = document.querySelector(".logos-slide").cloneNode(true);
+        document.querySelector(".logos").appendChild(copy); 
+   </script>
+
+</body>
+</html>
+
+{% endblock %} 

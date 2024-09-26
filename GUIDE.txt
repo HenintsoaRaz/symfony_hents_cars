@@ -1,0 +1,690 @@
+1- Git create new branche
+2- symfony new e_commerce_tso --version="7.1.*" --webapp 
+
+je veux analyser ça
+
+<div>
+    <h1>Hello {{ firstname }} <>
+
+    {{ dump(montableau) }}
+
+
+1- Utiliser BOOTSTRAP dans le projet SYMFONY: 
+decompreser le fichier bootstrap_template.zip 1- envoyer assets dans : dossier   public   du projet
+                                                 2- evoyer .html dans templates 
+
+2- CREE UN CONTROLLEUR :
+    -> symfony console make:controller -> HomeController 
+
+3- CONFIGURATION DANS AnaranaControllervao.php
+dans : src/Controller/HomeController.php
+    - supp home dans : #[Route['/home', name: '...']
+    - supp ,['controll_name' => 'HomeController',]
+
+4- CONFIGURATION : dans Templates/home/index.html.twig
+    - supp izy rehetra 
+    - copColl ao ilay ficher .htm vao désipena teo ambony 
+       => lancer fa miafficher resultat 
+       
+[2] INTEGRATION:
+- templates/home/index.html.twig : 
+    --- changer la langue en fr 
+    - <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet"> 
+    - <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet"> 
+
+   <!-- Custom styles for this template -->
+   - <link href="{{ asset('assets/css/carousel.css') }}" rel="stylesheet">
+   - <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+   - <script src="https!//adikao"></script> ([2] 12 36)
+
+        NB: asivo rel="stylesheet" ny css zay vao mity mandeha
+
+   - CHANGER LA LANGUE EN FR
+   - (any ambany) <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+                  <script src="{{ asset('assets/js/global.js') }}"></script>
+
+5- DIVISION DU FICHIER : Utiliser base.html.twig
+- supp tout dans : templates/home/base.html.twig
+- copColl tout : index.html.twig dans base.html.twig
+
+1.a - templates/home/index.html.twig : 
+{% extends 'base.html.twig' %}
+{% block body %}
+    body du projet 
+{% endblock %} 
+
+1.2 - base.html.twig :
+head
+header
+    {% block body %}{% endblock %}
+footer
+
+RELIER LE PROJET : bloc et d'héritage de base HTML twig
+
+[3]-[1] - Création de ENTITE
+NB: - providers : fournisseur d'utilisateur 
+    - firewalls : permet de vérifier l'identié de l'utilisateur 
+
+AUTHENTIFICATION : 
+-> symfony console make:user (ligne de commande)
+- entrée (tsy nanoratra fa nodinganina)
+- entrée (tsy nanoratra fa nodinganina)
+- entrée (tsy nanoratra fa nodinganina) 
+- entrée (tsy nanoratra fa nodinganina) 
+    - verifier ny fichier : config/packages/security.yaml 
+
+[2] - ORM : permet de faciliter le dialogue avec un BD (alias ce quoi?)
+(moi ce que je vous propose)
+
+    CONFIGURATION DANS .env : 
+- tsy maintsy asina .env.local : rehefa tsy dev en lignes
+- dans .env 
+- Désactivé ny # DATABASE_URL="postgresql//..." (DATA farany)
+- jerena isay misy MariaDB + activer + configurez hoe: -> DATABASE_URL="mysql://root:root@127.0.0.1:8889/laboutiquefrancaise?..."
+    Explication =>  root + password+Localhost + jerena hoe port inona ny server (server:localhost:8889) + nom_base_de_donnee
+
+SORATY NY BD : 
+(bd : laboutiquefrancaise)
+
+    CREATIONI DE BD DANS ligne de Commande : 
+        -> symfony console doctrine:database:create  (azo ilay config tao @ .env)
+
+[3] - Faire de notre entité User() une table en base de donnée 
+--> Concept de migration
+
+    CREATION DE MIGRATION :
+-> symfony console make:migration (misy FICHIER miforona ao @ migrations)
+-> symfony console doctrine:migrations:migrate
+- entrée (tsy nanoratra fa nodinganina)
+
+[4] - Création de notre formulaire d'inscription 
+-> symfony console make:entity
+-> User
+-> firstname
+-> string
+-> entrée (tsy nanoratra fa nodinganina) [255]
+-> entrée (tsy nanoratra fa nodinganina) [no]
+-> lastname
+-> ainsi de suite -> Entrée 
+
+MIS A JOUR DU TABLE (Etapa OBLIGATOIRE):
+-> 1- symfony console make:migration (misy fichier miforona )
+-> 2- symfony console doctrine:migrations:migrate   (avec s)
+    -> entrée (tsy nanoratra fa nodinganina) [yes]
+
+- verification : misy champ any @ BD 
+
+CREATION DE LA PAGE D'INSCRIPTION : 
+Etape1 : CREATION DE CONTROLLEUR :
+    -> symfony console make:controller  
+    -> RegisterController
+        -> RegisterController (misy fichier miforona)
+            - ovaina inscription ny register : #[Route('/inscription', name: 'app_register')]
+            - supp ny tableaux ao @ return ... 
+
+- supp daholo ny ao @ templates/index.html.twig + manorata zavatra + testeo ny hoe https://127.0.0.1:8000/inscription
+
+- soratana ao :
+    {% extends 'base.html.twig' %}
+
+    {% block body %}
+        <div class="container my-5">
+            (eto no foronina FORMULAIRE @ Ligne de commande)
+        </div>
+    {% endblock %}
+
+CREATION FORMULAIRE AVEC LIGNE DE COMMANDE SymfoNY :
+-> symfony console make:form 
+-> RegisterUserType (il faut respecter le CONVENTION)
+-> User (misy fichier miforona : public/src/Form/RegisterUserType.php)
+
+- misy ficher crée : src/form/RegisterUserType.php 
+
+
+AFFICHER FORMULAIRE AVY NOFORONINA t@ ligne de commande : (mila hay ny MECANISME)
+- aller dans RegisterController.php
+NB : Collisions : Utilisation de class qui ont le même nom mais pas la même utilisation 
+
+- aller dans RegisterUserType.php -> namespace App\Form; (verif) 
+NB: USE: Je l'appelle / NAMESPACE: Je définis un répertoire 
+- regarder vid 4- 30:17 :
+
+- dans RegisterController.php :
+public function ... {
+    $form = $this->createForm( type: RegisterUserType::class);
+    return ... , [
+        'registerForm' => $form->createView()
+    ]);
+}
+
+- dans index.html.twig : (miantso)
+{% block body %}
+    <div>
+        {{ form(registerForm) }} (verif: mipoitra ao ny formulaire : 127/inscription)
+    </div>
+{% endblock %}
+
+DESIGN DE FORMULAIRE AVEC BOOTSTRAP:
+- aller getbootstrap.com + serch form + Overview 
+- aller dans config/packages/twig.yaml : 
+    twig:
+        form_themes: ['bootstrap_5_layout.html.twig'] (verif @ /inscription)
+
+
+
+- dans src/controller/form/RegisterUserType.php :  - supp : ->add( child: 'roles')
+                               - apina : ->add( child: 'submit', type: SubmitType::class) (mipoitra auto ny use)
+- use Symfony\Component\Form\Extension\Core\Type\SubmitType; : verif ou ajouter 
+NB: Documentation -> Symfony Docs -> Basics + Form -> Form Types -> form types provided by Symfony (Site O)
+
+[5] Personnalisons le formulaire à l'aide du COMPOSANT dedié de Symfony -> Typage
+alias c'est quoi?
+- dans RegisterUserType.php :
+->add( child: 'email', type: EmailType::class, [  (ajouter type)
+    'label' => "Votre addresse email", (verifier raha mety)
+    'attr' => [
+        'placeholder' => "Indiquer votre adresse email"
+    ]
+])  
+
+-> adikao ny tohiny ao @ 8:35 à 8:53
+-> verifier le use ery ambony raha misy MIFORONA Auto (argument)
+
+[6] SAUVEGARDER LES INFORMATIONS du formulaire en BD
+CAHIER DE CHARGE :
+    // Si le formulaire est soumis alors:
+    // Tu enregistrer les datas en BD
+    // Tu envoies un message de confirmation du compte bien crée
+(request, l'injection de dépendance)
+
+- dans src/Controller/RegisterController.php : 
+    - public function index(Request $request, EntityManagerInterface $entityManager): Response    (misy use misorona ery ambony, injecté une DEPENDANCE) 5:20  
+    NB: debugger symfony : dd($request);
+3- $user = new User();
+0-4 $form = $this->createForm( type: RegisterUserType::class, $user);   (mampiditra param $user)
+
+1- $form->handleRequest($request);
+2- if ($form->isSubmitted() && $form->isValid()) {
+    // die('FORMULAIRE SOUMIS'); (lasa @ page die ahanaovana testa)
+    // dd($form->getData());
+    // 3b - dd($user);
+    $entityManager->persist($user);
+    $entityManager->flush();
+}
+
+5- verifie fa lasa any @ table user ny information + explication mlay 14:25
+
+[7] Sécurité Encodage des mots de passe de nos utilisateur
+- eo ambanin'ny password :
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+
+->add('plainPassword', RepeatedType::class, [
+    'type' => PasswordType::class,
+    'first_options'  => ['label' => 'Password', 'hash_property_path' => 'password'],
+    'second_options' => ['label' => 'Repeat Password'],
+    'mapped' => false,
+])
+
+- supp ny ->add password
+
+- dans RegisterController.php : (ambonin'ny : $entityManager->persist($user);) :
+dd($form->getData());
+
+- MANOVA MESSAGE ERREUR EN Francais :
+aller dans config/packages/translation.yaml -> changer en in-2 en fr
+
+[8] Valider les données grâce au COMPOSANT VALIDATOR de Symfony 7
+(nombre de caractère minimum à saisir par l'utilisateur)
+-> Symfony Documentation -> Advanced Topics - Validation -> Contraints in Form Classes
+
+- Dans RegisterUserType.php :
+ambanin'ny 'Type' ... ,
+           'constraints' => [ (verifie use miforona)
+                new Length([
+                    'min' => 4,
+                    'max' => 30
+                ])
+           ],  
+- jereo 4:19 de adikao 
+
+- $resolver->setDefaults([  
+    'constraints' => [  (tsy afaka miverina in-2 ny email)
+        new UniqueEntity([
+            'entityClass' => User::class,
+            'fields' => 'email'
+        ])
+    ],
+    'data_class' => User::class,
+])
+
+[9] Création du formulaire de login à l'espace membre et de la route logout
+- Doc Symfony -> security -> Users -> Form login
+
+-> symfony console make:controller
+-> LoginController 
+
+- config/packages/security.yaml :
+    main:
+        form_login:
+            login_path: app_login   (verif mitovy ao @ LoginController.php)
+            check_path: app_login 
+
+- LoginController.php : 
+public function index(AuthenticationUtils $AuthenticationUtils): Response     (AuthenticationUtils) (phpStorm)
+{
+    // Gérer les erreurs
+    $error = $AuthenticationUtils->getLastAuthenticationError();
+
+    // Derbuer username (email)
+    $lastUsername = $AuthenticationUtils->getLastUsername();
+
+    return $this->render( view: 'login/index.html.twig', [
+        'error' => $error,
+        'last_username' => $lastUsername,
+    ]);
+}
+
+- aller dans templates/login/index.html.twig : 
+sup daholo ankoatra ny :
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container my-5">
+        <h1>Connexion</h1>
+           copiColl ny : - Doc Symfony -> security -> Users -> Form login :
+                {% if error %} ... </form> (error : même @ LoginController.php) (11:40)
+
+    </div>
+{% endblock %}
+
+- aller dans : LoginController.php :
+    - #[Route('/connexion', name: ...)]    (ovaina connexion ny login)
+    - aller dans 127 /connexion   (miafficher ny formulaire)
+MODIF CSS :
+    - aller dans : index.html.twig : 
+        - asina class="form-control"  ny input + class="btn btn-success mt-3"
+        - label: Votre email + Votre mot de passe + Me connecter
+        => testeo miconecter fa mety 
+
+SAVOIR SI CONNECTER OU PAS :
+=> Comment est ce qu'on sait là si on est bien CONNECTE ou pas? -> PROFILER de Symfony 
+NB: PROFILER : C'est sont des information de congiguration de Symfony à destination des développeurs qui vont nous permettre au fur et à mesure de notre développement,
+
+    CREE UN NOUVEAU CONTROLLEUR :
+    -> symfony console make:controller 
+    -> AccountController 
+
+- Aller dans AccountController.php :
+    - changer le route account en : compte
+    - ao à return supp ny tableau 
+
+- Aller dans templates/account/index.html.twig :
+    - supp tous ce qui a dans body, dia soloina hoe :
+    {% block body %}
+        <div class="container my-5">
+            <h1>Espace membre privé </h1>
+        </div>    
+
+- Aller dans index.html.twig :
+    - enlever le commentaire de <input type="hidden" name="_target_path" value="{{ path('app_account') }}">
+    NB: commentaire : {# #}
+- site officiel :  Loggin Out  (tsy fermena ny site officiel nisokatra teo aloha)
+
+- Aller dans security.yaml : 
+    - main :
+        logout:    (ambonin'ny form_login sasy mifanintsy: )
+            path: app_logout  (avy eo mcrée route any @ LoginController.php )
+
+- Aller dans : LoginController.php :
+    - site officiel : Logout programmatically : 
+    - vid 9- 24:37 : code copieColler -> atao frère #[Route(')] 
+    - ny route ovaine logout ovaina : deconnexion    (Nb: route + nom + paramètre)
+    - verification aller dans 127 / deconnexion -> rediriger vers homePage donc mety 
+
+- DEFINIE UN REGLE D'ACCESS CONTROL : Tonga ao @ COMPTENAO ianao :
+    - aller dans 127 / compte -> misy affichage mipoitra, araka ny affichage code ao @ templates/account/index.html.twig :
+
+    - aller dans security.yaml : 
+        - access_control:
+            - { path: ^/compte, roles: ROLE_USER }
+            - 127 / compte -> compte dia miverena mconnecta 
+
+[10] Pause! On améliore le design et l'UX de l'espace membre
+-> BUT : Si mon utilisateur est connecté, alors si tu vas m'afficher tel élément, s'il ne l'est pas, tu vas m'afficher autre chose
+- templates/register/base.html.twig 
+    - <div>
+explication ny eo @ <a>: (Ao @ AccountController.php ny name route) + (ao @ Entity/User.php ny profil afficher) + (rehefa tsy conecté dia ao @ src/Controller/LoginController.php ny param route)
+        {%  if app.user %}
+            (si l'utilisateur est connecter : lien vers son compte  + affiche son prenom)
+            <a href="{{ path('app_account') }}"><i data-feather="user"></i> {{ app.user.firstname }} </a> 
+        {% else %}
+            (si l'utilisateur n'est connecter tu lui propose vers le lien de se connecter ) 
+            <a href="{{ path('app_login') }}"><i data-feather="user"></i></a> 
+        {% end if %}
+      </div>
+    
+            - templates/account/index.html.twig : + 127 / compte (hitestena fa supp avy eo)
+            <div>
+                {{ dump(app) }} 
+            <div>
+
+    - site officiel : DOC : Getting Started -> Templates/twig -> The App Global Variable 
+
+- index.html.twig  (FAT: misy index.html.twig maro ) :
+    <>Espace membre privé<> 
+    <a href="{{ path('app_logout') }}">Me déconnecter </a> (#route ao @ LoginController.php)
+
+- templates/login/index.html.twig : (asina button logout) (#route ao @ RegisterController.php)
+    Vous n'avez pas de compte ? <a href="{{ path('app_register') }}">Inscrivez-vous</a>
+
+- DEBBUGER: Mahita ny ROUTE rehetra ao anaty Application 
+    -> symfony console debug:router  (mipoitra daholo ny route ao @ application: route propre au fonctionnement de symfony + route noforonina )
+
+- templates/register/index.html.twig :
+    Vous avez déja un compte ? <a href="{{ path('app_login') }}"> Connecter-vous </a>
+
+- MODIFICATION DU CSS:
+    migration/public/assets/css/custom.css 
+       .speed-menu a {   (ligne 78)
+            text-decoration : none; 
+       }
+
+- LIEN AN'I LOGO 
+    base.html.twig :
+        <header> zay lien voalohany <a href="{{ path('app_home') }}">La Boutique Francais</a> 
+        ovay Accueil lay home eo ambany -> href="{{ path('app_home') }}">Accueil</a>
+
+- account/index.html.twig
+    <a href="">Modifier mon mot de passe</a>
+
+[11] Les vues privées - Modification du mot de passe de l'utilisateur
+- Controller/AccountController.php
+    mamorona route vao2:
+        #[Route('/compte/modifier-mot-de-passe', name: 'app_account_modify_pwd')] (1-route)
+        public function password(): Response
+        {
+            return $this->render( view: 'account/password.html.twig'); 
+        }
+- templates/account/ 
+    mamorona fichier : password.html.twig -> dupliquer ny ao @ index.html.twig :
+        <iv>
+            <h1>
+            <h3>Modificatioin de mon mot de passe</h3> (supp ny eo ambany )
+
+        </div>
+
+- templates/account/index.html.twig : (manampy lien)
+    <a href="{{ path('app_account_modify_pwd') }}">Modifier mon mot de passe </a>  (1-route)
+
+CAHIER DE CHARGE
+    1. formulaire
+        1.a : le mot de passe actuel -> comparer avec le mdp en BDD
+        1.b : nouveau mot de passe
+        1.c : confirmation de son nouveau mot de passe -> ao @ RegisterUserType misy RepeatedType Donc vita
+    2. Mise à jour en BDD
+        2.a : Lui envoyer une petite notification pour lui confirmation la modification du MDP 
+
+CREE UN FORMULAIRE DE MODICATION MOT DE PASSE : 
+-> symfony console make:form :
+-> PasswordUserType 
+-> User 
+
+- AccountController.php :
+    eo ambonin'ny : return $this->render( view: 'account/password.html.twig');
+        - $form = $this->createForm( type: PasswordUserType::class), (misy use miforona)
+        - manampy param: ,[] : return $this->render( view: 'account/password.html.twig', [
+            'modifyPwd' => $form->createView()
+        ]);
+
+- templates/account/password.html.twig : 
+    <h3>
+    {{ form(modifyPwd) }}
+
+    - Verif : 127 /modifier-mot-de-passe
+    
+- PasswordUserType.php
+    $builder
+        ->add( child: 'actualPassword', type: PasswordType::class, [
+            'label' => "Votre mot de pass actuel"
+        ])
+        ->add( child: 'password') 
+            NB syntaxe : ->add( child: 'NOM', type: TYPAGE, []) 
+
+- RegisterUserType.php :
+    copColl ao @ PasswordUserType : 11- 13:20 à 14:43-> de alefa ao @ PasswordUserType.php
+
+- PasswordUserType.php : 
+    ambanin'ny : 'label' => "Votre mot de passe actuel"
+    - 'attr' => [
+        'placeholder' => "Indiquer votre mot de passe actuel"
+    ]
+
+- 14:55 à 15:36 misy copColl
+ nb: Je vien de faire ...
+
+- MISE A JOUR EN BDD : 
+    - AccountController.php :
+        - public function password(Request $request): Response     (Request)
+        {
+            $form = ....
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                dd($form->getData());
+            }
+        }
+
+********************************************
+->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+$form = ...;
+$user = $form->getConfig()->getOptions()['data'];
+dd($user->getPassword());
+dd($form->getConfig()->getOptions());
+
+1. ...
+$actualPwd = $form->get('actualPassword')->getData();
+dd($actualPwd);
+
+2. ...
+$actualPwdDatabase = $user->getPassword();
+dump($actualPwd); //password tsy crypté
+dd($actualPwdDatabase); //password crypté 
+
+- doc/Security/passwords/ 
+- AccountController.php
+    param : UserPasswordHasherInterface $passwordHasher
+    [
+        'passwordHasher' => $passwordHasher
+    ]
+})
+
+- PasswordUserType.php
+'passwordHasher' => null
+
+[12] 1- site off: search : flash Messages ou The Basics -> Sessions -> Flash Messages 
+     2- symfony console make:test
+
+
+
+
+
+5. Les tests unitairesfonctionnels
+    - test Unitaire
+    - test fonctionnelle 
+
+    - test first :  alefa mialoha ny test zay vao mcrée projet
+
+- site officiel: Doc->The Basics->Tests
+    -> symfony composer require --dev symfony/test-pack
+    -> php bin/phpunit
+    -> TestCase
+        -> ExempleTest
+            - vas dans tests/ExempleTest + configurer
+                ->php bin/phpunit
+
+exemple de compte:
+tsotso@gmail.com
+mdp 1234
+prénom: Henintsoa
+nom: Raz
+
+CREATION DE DASHBOARD
+symfony console doctrine:database:create --env=test
+- mise en place de l'administration -> bundle
+
+VERIFICATION : 
+    ->composer require easycorp/easyadmin-bundle
+    -> Entrée x2 (dossier miforona: src/Controller/Admin/DashboardController.php)
+        - aller dans http://127.0.0.1:8000/admin
+
+CREE UN CRUD:
+-> symfony console make:admin:crud
+-> 0
+-> Entrée x2
+**************************************************************************
+veriication hoe farany : Dans : UserCrudController.php
+19: 07 -> onlyOnIndex(), 
+
+7.Les Produits : 
+[1]
+->symfony console make:entity
+->Category
+
+->name (fields)
+->Entrée [string]exit
+->Entrée[255]
+->Entrée [no]
+->slug   (Permet de créer un URL qui va être réérencée et utilisable)
+->Entrée [string]
+->Entrée[255]
+->Entrée [no]
+->Entrée    => Success 
+
+CREE TOUS DE SUITE UN MIGRATION : (Envoyer en BD)
+->symfony console make:migration  -> migration/FichierMiforona
+
+METTRE A JOUR DANS LA BD:
+->symfony console d.m.m  (migration:migrate)
+->Entrée[Yes]  => (verif table category dans la BD -> id name slug)
+    + src/Entity/Category.php + src/Repository/CategoryRepository.php 
+
+[2]
+127 / admin -> BackOfiice
+->symfony console make:admin:crud 
+->0
+->Entrée
+->Entrée
+
+- aller dans : DashboardController.php (mamorona ligne catégorie)
+- yiels ... :LinkToCrud('Catégories', ..., Category::class);  -> misy nouveau meny apparu (verif)
+
+(Voir Video)
+- aller dans : UserCrudController.php -> copieColler : public function configureCrud -> ao @ CategoryCrudController.php (farany ambany)
+    use EasyCorp\...\Crud;
+-   ->setEntityLabelInSingular('Catégorie')
+    ->                        ('Catégories')
+
+-- Désactiver commentaire function ao @ CategoryCrudController.php + supp mais garder ('title'), -> title to ('name')->setLabel("Titre")->setHelp("Titre de la catégorie"), 
+    (Mila SLUG eto donc : )
+-- SlugField::new('slug')->setLabel('URL')->setTargetFieldName('name')->setHelp('URL de votre catégorie générée automatiquement')    =>    (miafficher ao @ Catégorie)
+- Essayer ajouter catégorie  + Ajouter 
+
+[3]
+CREE TABLE donc Crée ENTITY :
+-> symfony console make:entity
+-> Product 
+-> name
+->Entrée [s]
+->Entrée [2]
+->Entrée [no]
+-> slug
+->Entrée [s]
+->Entrée [2]
+->Entrée [no]
+->description 
+->text
+->Entrée [no]
+->illustration (image)
+->Entrée [s]
+->Entrée [2]
+->Entrée [no]
+-> price 
+-> float (prix) (? : aide)
+->Entrée [no]
+-> tva
+-> float
+->Entrée [no]
+-> category   (Lier notre produit de l'entrée dans une catégorie)
+-> relation   (JOINTURE)
+-> Category   (C Maj)  => misy zavatra mipoitra mao eo @ console 
+-> ManyToOne  
+->Entrée [yes]  (Afaka misy produit tsy misy Catégorie)
+->Entrée [yes]
+->Entrée [products];
+-> ENTREE  => success
+
+MIGRATION :
+-> symfony console make:migration 
+-> symfony console d:m:m 
+-> Entrée [yes]
+
+[4]
+=> Lier notre entité, notre nouvelle entité Product à notre EasyAdmin, de manière à pouvoir GERER, CREE, MODIFIER, SUPPRIMER nos produits 
+-> symfony console make:admin:crud 
+-> 1 (FAT : 1 \Product)
+->Entrée 
+->Entrée 
+
+AJOUTER UN LIEN dans : src/Controller/Admin/DashboardController.php :
+- yiels ... :LinkToCrud('Produits', ..., Product::class);  -> misy nouveau meny apparu (verif)
+- aller dans : CategoryCrudController.php -> copieColler : public function configureCrud -> ao @ ProductCrudController.php (farany ambany) :
+    ('Produit')
+    ('Produits')   
+- Enlever le Commentaire :
+    return [
+        TextField::new('name')->setLabel('Nom')->setHelp('Nom de votre produit'),
+        SlugField::new('slug')->setTargetFieldName('name')->setLabel('URL')->setHelp('URL de votre catégorie générée automatiquement'),
+        TextEditorField::new('description')->setLabel('Description')->setHelp('Description de votre produit'),
+        ImageField::new('illustration')->setLabel('Image')->setHelp('Image du produit en 600x600px')->setUploadedFileNamePattern('[year]-[month]-[day]-[contenthash].[extension]')->setBasePath('/uploads')->setUploadDir('/public/uploads'),
+        NumberField::new('price')->setLabel('Prix H.T')->setHelp('Prix H.T du produit sans le sigle Euro.'),
+        ChoiceField::new('tva')->setLabel('Taux de TVA')->setChoices([
+            '5,5%' => '5.5',
+            '10%' => '10',
+            '20%' => '20'  => verif 127 / admin
+        ]),
+        AssociationField::new('category', 'Catégorie associée ')
+            ERROR : Mon objet App Entity catégorie ne peut pas être converti en string , Solution : S1
+    ];
+
+ERROR : Tu as voulue pour ta propriété Illustration utiliser un image field ... SOLUTION : setUpload io ambony
+- aller dans : public/uploads -> Crée se dossier : uploads => veri 127/ admin 
+
+=> ERROR : Object of class App\Entity\Category could not be converted to string
+- S1 : aller dans src/Entity/Category.php -> 
+    (ambanin'ny public function __construct)
+public function __toString() 
+{
+    return $this->name;
+} 
+
+=> testez ajouter produit + tonga any @ uploads ny img 
+
+[5]
+--> But : 8000/categorie/NOMDELACATEGORIE
+-> symfony console make:controller
+-> CategoryController
+
+- src/Controller/Admin/CategoryController.php :
+    - MODIF : route 
+    Modif route : category lasa -> ('/categorie/{slug}',   )
+        index($slug, CategoryRepository $categoryRepository): Response
+        {
+            dd($slug); => 127 / categorie/sacs => "slug"
+            1. L'ouvrais un connexion avec ma BDD
+            2. Connecte toi à la table qui s'applle Category
+            3. Fais une action en base de donnée
+
+            $category = eto ny farany
+        }
+
+symfony console doctrine:migration:migrate

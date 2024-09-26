@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <div class="container my-5">
+
+        <div class="container-ui"> 
+            <h1 id="offres_title">{{ category.name }}</h1>
+            <h5> Cette catégorie contient {{ category.products|length }} produit(s). </h5>
+
+                <section class="grid_cards">
+                    {% for product in category.products %}
+                            <article class="card_ui" id="category_bg_rbga">
+                                <div class="car_header">
+                                    <div class="car_header_status">
+                                        <a href="#" class="status_rating">
+                                            <i class="fas fa-star status_rating_star"></i>
+                                            <span>4.7</span>
+                                            <span class="status_rating_number_comments">(109)</span>
+                                        </a>
+                                        <div class="status_disponibility status_available">
+                                            <span>Disponible</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="button_like">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="car_body">
+                                    <div class="car_body_img_container">
+
+
+                                                            <a href="{{ path('app_product', { slug : product.slug }) }}" class="car_img_content_link">
+                                                                <figure class="car_img_content">
+                                                                    <img src="/uploads/{{ product.illustration }}">
+                                                                </figure>
+                                                            <a/>
+
+
+
+
+
+                                    </div>
+                                    <div>
+
+
+
+                                        <p class="car_name">{{ product.name }}</p>
+
+
+
+                                        <div class="car_price_container">
+                                            <a href="#" class="car_model_link">
+
+
+
+
+                                                                                            <h2 class="car_model" title="FOCUS">{{ product.description|raw }}</h2>
+
+
+
+                                            </a>
+                                                                                            <p class="car_price">{{ product.pricewt|price }} <span class="car_price_time"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="car_footer">
+                                    <ul class="car_list_characteristics">
+                                        <li>
+                                            <i class="fas fa-sliders-h"></i>
+                                            <span title="Manual">Manual</span>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-tachometer-alt"></i>
+                                            <span title="Kilometraje ilimitado">Kilometraje ilimitado</span>
+                                        </li>
+                                        <li>
+                                            <i class="fas fa-user"></i>
+                                            <span title="5">5</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </article>
+                        
+
+                    {% endfor %}    
+                </section>  
+    </div> 
+
+{% endblock %}

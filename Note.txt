@@ -1,0 +1,94 @@
+Page TEMPLATE :
+- login 
+- clique menu Category : 
+- Espace Membre :
+	acount/index.html.twig
+- Menu wishlist : account/wishlist/index.html.twig
+
+
+Promotion - Best Seller - 
+
+contrat astrainte : any antrano no miasa 
+demo mlay : https://wpshopmart.com/html/demo/car-website-template/index.html
+*********** Mail Projet *******************
+henraztsoa@gmail.com ambohimandroso123m pseudo: RAZAFINDRASOLO Henintsoa                     tsaratsara
+ambohimandroso_123m : mailjet 
+nom model @ mailjet :  Modèle de mail transacrionnel
+
+yopmail => henintsoa123@yopmail.com (hitestena Email) : raz hents
+
+
+Role :User / Admin / Moderateur / Analytics ...
+*******************************************
+
+TVA iray : price x 0.2  -> si 20%
+
+Problème:
+	Admin:
+		- Tsy afaka mCrée Utilisateurs
+
+	Home: 
+		- tsy afaka mclique icon user
+	Modifier mot de passe : 
+
+Vita Verification : 
+	3. Tunnel d'achat  Choix de l'adresse de livraison et du transporteu
+	4. Tunnel d'achat  Sommaire de la commande et ajout de style.mp4
+
+Problème a résolue :
+- tsy mety Utilisateur tsy connécté
+- …
+
+-> stocké en Base de donnée le détail de commande de l'utilisateur 
+******* ny ao anatin'ny fichier iray:
+- Order.php : Affichage ny ao @ admin Commande 
+------------------------------------------------
+10. Les commandes 
+	-> 6. Mapping de nos nouvelles entités avec EasyAdmin
+		-> manala boutton any @ admin: 
+			site officiel: EasyAdmin: 
+			actions -> Removing Actions -> copColl ny function ao
+
+vue.js / angular / python / C Sharp / Java: dev ato ampiasana
+
+Installation STRIPE:
+DEMO:
+	stripe.com : 
+	- Produits -> Checkout -> Lancer la démo -> next -> ery ambany: Success + copy + coller Cart information
+
+CREATION DU COMPTE:
+NB: yopmail.com c'est quoi ? exemple : razhentsoaAmb-1234
+
+- Crée un Compte stripe
+- cliquer sur Aide + Documentations pour les développeurs + Paiements + (Checkout + Présentation) + QuickStart -> choisissez le techno 
+- Installer dans Terminale: composer require stripe/stripe-php
+
+- src/Controller/Admin/OrderController.php
+
+******  tel Icon : ********
+flaticon.com
+
+*** boutton activé / désactivé : **********
+	symfony console create:entity
+		Product 
+		isHomepage
+
+		database -> yes
+
+OBJECTIF :
+
+Modèles    Electrique et hybrid     Achat et location   Votre Audi    Univers Audi
+Nos models                          Cheter       Vendre     Services   Professionnel   Entretien & Services   Univers Peugeot
+Modèles           Gamme éléctrique          Configurer  Acheter        Marque & Services
+Véhicule neufs         Véhicule d'occasion       Gamme éléctifiée        Votre T       Découvrez Toyota 
+
+Bentayga EWB
+Nouvelle Audi A3 Sportback
+
+
+{# Vid cars *************** #}
+
+
+
+
+{# End Vid cars *************** #}

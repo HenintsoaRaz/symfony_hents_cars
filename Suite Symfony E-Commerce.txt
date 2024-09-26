@@ -1,0 +1,140 @@
+[7] Création d'une ....  (suite) : 13:13
+- adikao ao @ ProductController.php 
+- base.html.twig :
+	// {{ getCategories() }}
+
+- src/Twig/AppExtensions.php
+1- apina implements GlobalsInterface ao @ :
+class AppExtensions extends AbstractExtension implements GlobalsInterface
+
+2- mamorona function :
+public function getGlobals(): array
+{
+	return [
+
+	];
+}
+
+3- AppExtensions.php : apina allCategoris ny ao @ boucle + 8- href="{{ ... }}" => (Verif : mety fonctionne ny Menu)
+{% for category in allCategories %}
+	<li class="nav-item">
+		<a class="" href="{{ path('app_category', { slug : category.slug } ) }}">{{ category.name }}</a> 
+	</li>
+{% endfor %}
+
+4- aller dans : src/Twig/AppExtensions.php -> miantso ao @ return    (chercher un repository)
+
+5- mamoron var private :
+private $categoryRepository;
+
+6- Mamorona function asina INJECTION : CategoryRepository (function farany ambony)
+public function __construct(CategoryRepository $categoryRepository)               
+{
+	$this->categoryRepository = $categoryRepository;
+}
+
+7- ao @ public function getGlobals()
+return [
+	'allCategories' => $this->categoryRepository->findAll(); 
+]
+
+[8] (Mba tsy ho afaka manoratra produit tsy misy eny @ LIEN)
+- CategoryController.php : 
+	public function ... {
+		$category = ...
+
+		if(!$category) {
+			return $this->redirectToRoute('app_home'); 
+		}
+	}
+
+- ProductController.php : 
+if(!$product) {
+	return $this->redirectToRoute('app_home'); 
+}
+
+- src/Controller/Admin/ProductCrudController.php : vid: 03:46 
+	- Manampy Method : 
+		public function ... {
+			$required = true;
+
+			if ($pageName == 'edit') {
+				$required = false;
+			}
+
+			return [
+				->setRequired($required)       (any @ farany ity method ity)
+			]
+		}
+
+[8.Le panier]
+[1]
+-> symfony console make:controller CartController 
+-> CartController.php : 
+	- changer en : mon-panier ny route + rétirer tab @ return 
+-> templates/cart/index.html.twig 
+	- supp daholo dia soloina ny twig ao  @ category
+		<h1> Mon panier </h1>     => 127/mon-panier
+
+		<div class="row">
+			<div class="col-md-8">
+				Liste de mes produits
+			</div>
+
+			<div class="col-md-d">
+				Mecan de mon panier (prix, bouton, commande)
+			</div>
+		</div>
+
+- product/index.html.twig : 
+	<a href="{{ path('app_cart') }}"><i ... shopping-cart></i></a>
+
+[2]
+- CartController.php :
+	- Crér une nouvelle route :
+		- route : ('/cart/add/{id}')
+		- name: 'app_cart_add'
+		- public function add($id): Response 
+		  {
+			// dd($id);    => 127/cart/add/2 => "2" ****************************************************************
+		  }
+		  (c'est plutôt quelque chose de transition qui va être manipulé par l'utilisateur)
+	
+	- Crée un Fichier dans : src/Classe/Cart.php 
+
+	- product/index.html.twig :
+		- ovaina <a> ny <button>
+			<a href="{{ path('app_cart_add', { id : product.id } ) }}"> (route crée tao @ CartController.php)
+		- => cliquer sur le bouton Ajouter au panier -> azo ny id
+
+- CartController.php :
+	- Crér une nouvelle route :
+		- public function add($id): Response 
+		  {
+			$cart->add($id); 
+			// dd($id)
+		  }
+	
+	- Crée un Fichier dans : src/Classe/Cart.php 
+		<?php
+		namespace App\Classe;
+
+		class Cart {
+			public function add($id) na ($product)
+			{   
+				na dd($product);  
+				// Appeler la session de symfony
+				// Crée ma session Cart 
+				// Ajouter une quantity +1 à mon produit 
+			}
+		}
+
+- CartController.php : (Miantso class Cart ao @ Cart.php)
+	- public function add($id, Cart $cart, ProductRepository $productRepository)    (use miforona)
+		{
+			$product = $productRepository->findOneById($id); 
+			$cart->add($product); 
+			// dd('Produit ajouté au panier');      =>  127/cart/add/2 => 'Produit ajouté au panier' ****************************
+		}
+
+tohiny : ao @ fichier nozaraina

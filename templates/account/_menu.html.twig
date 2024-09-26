@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+  {% block body %}
+
+
+    <ul class="nav flex-column bg-light-blue">
+      <li class="nav-item ia">
+       <i class="menu-icon fa-fw fas fa-list"></i> <a class="nav-link" href="{{ path('app_account') }}">Mes commandes</a>
+      </li>
+      <li class="nav-item ia" >
+        <i class="fas fa-address-card"></i> <a class="nav-link" href="{{ path('app_account_addresses') }}">Mes adresses</a>
+      </li>
+      <li class="nav-item ia">
+        <i class="fa fa-heart"></i> <a class="nav-link" href="{{ path('app_account_wishlist') }}">Ma liste de souhait</a>
+      </li>
+      <li class="nav-item ia">
+        <i class="fa fa-key"></i> <a class="nav-link" href="{{ path('app_account_modify_pwd') }}">Modifier mon mot de passe</a>
+      </li>
+
+        {% if is_granted('ROLE_ADMIN') %}
+          <li class="nav-item ia">
+            <i class="fa fa-user"></i> <a class="nav-link" href="{{ path('admin') }}">Administration</a>
+          </li>
+        {% endif %}
+
+      <li class="nav-item ia">
+        <i class="fa fa-sign-out" aria-hidden="true"></i> <a class="nav-link" href="{{ path('app_logout') }}">Me déconnecter</a>
+      </li>
+    </ul>
+  {% endblock %}
